@@ -65,7 +65,7 @@ void free_user_data(void *memory);
  * @returns dbus_bool_t Returns TRUE if the state was changed, and FALSE
  *                      otherwise.
  */
-dbus_bool_t spotify_playing();
+dbus_bool_t spotifyd_playing();
 
 /**
  * Updates current stored spotify state and sends IPC messages to polybar to
@@ -75,7 +75,7 @@ dbus_bool_t spotify_playing();
  * @returns dbus_bool_t Returns TRUE if the state was changed, and FALSE
  *                      otherwise.
  */
-dbus_bool_t spotify_paused();
+dbus_bool_t spotifyd_paused();
 
 /**
  * Updates current stored spotify state and sends IPC messages to polybar to
@@ -85,10 +85,10 @@ dbus_bool_t spotify_paused();
  * @returns dbus_bool_t Returns TRUE if the state was changed, and FALSE
  *                      otherwise.
  */
-dbus_bool_t spotify_exited();
+dbus_bool_t spotifyd_exited();
 
 /**
- * Updates the currently stored spotify trackid.
+ * Updates the currently stored spotifyd trackid.
  *
  * @param const char* The trackid
  *
@@ -104,6 +104,6 @@ dbus_bool_t update_last_trackid(const char *trackid);
  *
  * @returns dbus_bool_t TRUE if the trackid has changed, FALSE otherwise
  */
-dbus_bool_t spotify_update_track(const char *current_trackid);
+dbus_bool_t spotifyd_update_track(const char *current_trackid);
 
 #endif

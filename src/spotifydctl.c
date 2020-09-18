@@ -233,7 +233,7 @@ void get_status(DBusConnection *connection, const int max_artist_length,
     dbus_message_unref(reply);
 }
 
-void spotify_player_call(DBusConnection *connection, const char *method) {
+void spotifyd_player_call(DBusConnection *connection, const char *method) {
     DBusError err;
     dbus_error_init(&err);
 
@@ -402,23 +402,23 @@ int main(int argc, char *argv[]) {
             break;
 
         case MODE_PLAY:
-            spotify_player_call(connection, PLAYER_METHOD_PLAY);
+            spotifyd_player_call(connection, PLAYER_METHOD_PLAY);
             break;
 
         case MODE_PAUSE:
-            spotify_player_call(connection, PLAYER_METHOD_PAUSE);
+            spotifyd_player_call(connection, PLAYER_METHOD_PAUSE);
             break;
 
         case MODE_PLAYPAUSE:
-            spotify_player_call(connection, PLAYER_METHOD_PLAYPAUSE);
+            spotifyd_player_call(connection, PLAYER_METHOD_PLAYPAUSE);
             break;
 
         case MODE_NEXT:
-            spotify_player_call(connection, PLAYER_METHOD_NEXT);
+            spotifyd_player_call(connection, PLAYER_METHOD_NEXT);
             break;
 
         case MODE_PREVIOUS:
-            spotify_player_call(connection, PLAYER_METHOD_PREVIOUS);
+            spotifyd_player_call(connection, PLAYER_METHOD_PREVIOUS);
             break;
     }
 

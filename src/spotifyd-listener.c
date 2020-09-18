@@ -21,9 +21,9 @@ const char *POLYBAR_IPC_DIRECTORY = "/tmp";
 // Used to check if track has changed
 char *last_trackid = NULL;
 
-// Current state of spotify
-typedef enum { PLAYING, PAUSED, EXITED } SpotifyState;
-SpotifyState CURRENT_SPOTIFY_STATE = EXITED;
+// Current state of spotifyd
+typedef enum { PLAYING, PAUSED, EXITED } SpotifydState;
+SpotifydState CURRENT_SPOTIFYD_STATE = EXITED;
 
 // DBus signals to listen for
 const char *PROPERTIES_CHANGED_MATCH =
@@ -50,23 +50,23 @@ dbus_bool_t update_last_trackid(const char *trackid) {
     }
 }
 
-dbus_bool_t spotify_update_track(const char *current_trackid) {
+dbus_bool_t spotifyd_update_track(const char *current_trackid) {
     // If trackid didn't change
     if (last_trackid != NULL && strcmp(current_trackid, last_trackid) != 0) {
         puts("Track Changed");
         // Send message to update track name
-        if (send_ipc_polybar(1, "hook:module/spotify2")) return TRUE;
+        if (send_ipc_polybar(1, "hook:module/spotifyd2")) return TRUE;
     }
     return FALSE;
 }
 
-dbus_bool_t spotify_playing() {
-    if (CURRENT_SPOTIFY_STATE != PLAYING) {
+dbus_bool_t spotifyd_playing() {
+    if (CURRENT_SPOTIFYD_STATE != PLAYING) {
         puts("Song is playing");
         // Show pause, next, and previous button on polybar
         if (send_ipc_polybar(4, "hook:module/playpause2",
                              "hook:module/previous2", "hook:module/next2",
-                             "hook:module/spotify2")) {
+                             "hook:module/spotifyd2")) {
             CURRENT_SPOTIFY_STATE = PLAYING;
             return TRUE;
         }
@@ -74,13 +74,13 @@ dbus_bool_t spotify_playing() {
     return FALSE;
 }
 
-dbus_bool_t spotify_paused() {
-    if (CURRENT_SPOTIFY_STATE != PAUSED) {
+dbus_bool_t spotifyd_paused() {
+    if (CURRENT_SPOTIFYD_STATE != PAUSED) {
         puts("Song is paused");
         // Show play, next, and previous button on polybar
         if (send_ipc_polybar(4, "hook:module/playpause3",
                              "hook:module/previous2", "hook:module/next2",
-                             "hook:module/spotify2")) {
+                             "hook:module/spotifyd2")) {
             CURRENT_SPOTIFY_STATE = PAUSED;
             return TRUE;
         }
@@ -88,13 +88,13 @@ dbus_bool_t spotify_paused() {
     return FALSE;
 }
 
-dbus_bool_t spotify_exited() {
+dbus_bool_t spotifyd_exited() {
     if (CURRENT_SPOTIFY_STATE != EXITED) {
         // Hide all buttons and track display on polybar
         if (send_ipc_polybar(4, "hook:module/playpause1",
                              "hook:module/previous1", "hook:module/next1",
-                             "hook:module/spotify1")) {
-            CURRENT_SPOTIFY_STATE = EXITED;
+                             "hook:module/spotifyd1")) {
+            CURRENT_SPOTIFYD_STATE = EXITED;
             return TRUE;
         }
     }
@@ -142,7 +142,7 @@ DBusHandlerResult properties_changed_handler(DBusConnection *connection,
     if (VERBOSE) puts("Running properties_changed_handler");
     DBusMessageIter iter;
     DBusMessageIter sub_iter;
-    dbus_bool_t is_spotify = FALSE;
+    dbus_bool_t is_spotifyd = FALSE;
     dbus_message_iter_init(message, &iter);
 
     /**
@@ -209,7 +209,7 @@ DBusHandlerResult properties_changed_handler(DBusConnection *connection,
         update_last_trackid(trackid);
         is_spotify = TRUE;
 
-        if (VERBOSE) puts("Spotify Detected");
+        if (VERBOSE) puts("Spotifyd Detected");
     }
 
     free(trackid);
@@ -229,9 +229,9 @@ DBusHandlerResult properties_changed_handler(DBusConnection *connection,
         // Update polybar modules
         char *status = iter_get_string(&sub_iter);
         if (strcmp(status, "Paused") == 0) {
-            spotify_paused();
+            spotifyd_paused();
         } else if (strcmp(status, "Playing") == 0) {
-            spotify_playing();
+            spotifyd_playing();
         }
 
         free(status);
@@ -264,11 +264,11 @@ DBusHandlerResult name_owner_changed_handler(DBusConnection *connection,
         return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
     }
 
-    // If name matches spotify and new owner is "", spotify disconnected
+    // If name matches spotifyd and new owner is "", spotifyd disconnected
     if (strcmp(name, "org.mpris.MediaPlayer2.spotifyd") == 0 &&
         strcmp(new_owner, "") == 0) {
-        puts("Spotify disconnected");
-        spotify_exited();
+        puts("Spotifyd disconnected");
+        spotifyd_exited();
         return DBUS_HANDLER_RESULT_HANDLED;
     }
 
@@ -297,7 +297,7 @@ int main() {
         return 1;
     }
 
-    // Receive messages for NameOwnerChanged signal to detect spotify exiting
+    // Receive messages for NameOwnerChanged signal to detect spotifyd exiting
     dbus_bus_add_match(connection, NAME_OWNER_CHANGED_MATCH, &err);
     if (dbus_error_is_set(&err)) {
         fputs(err.message, stderr);

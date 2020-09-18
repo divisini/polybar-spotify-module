@@ -1,5 +1,5 @@
-#ifndef _SPOTIFY_STATUS_H_
-#define _SPOTIFY_STATUS_H_
+#ifndef _SPOTIFYD_STATUS_H_
+#define _SPOTIFYD_STATUS_H_
 
 #include <dbus-1.0/dbus/dbus.h>
 
