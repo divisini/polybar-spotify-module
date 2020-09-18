@@ -1,12 +1,13 @@
-# Maintainer: Mihir Lad <mihirlad55@gmail.com>
-pkgname=polybar-spotify-module
+# Maintainer:
+# not ready for public use.
+pkgname=divisini-spotifyd-module
 pkgver=1.2.3
 pkgrel=1
-pkgdesc="Programs to display spotify information and control spotify with polybar"
+pkgdesc="Programs to display spotify information and control spotifyd with polybar"
 arch=('any')
-url='https://github.com/mihirlad55/polybar-spotify-module'
+url='https://github.com/divisini/polybar-spotify-module'
 license=('GPL3')
-depends=('dbus' 'spotify' 'polybar')
+depends=('dbus' 'spotifyd' 'polybar')
 optdepends=('nerd-fonts-complete: play, pause, etc. icons for spotify module'
             'ttf-font-awesome: more icons for spotify module')
 

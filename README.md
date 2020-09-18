@@ -1,3 +1,6 @@
+WIP modification so the module targets [spotifyd](https://github.com/Spotifyd/spotifyd)
+To be completely clear, to start I've done nothing but append a "d" to the end of every instance of "spotify" where it makes sense to do so.
+
 # Polybar Spotify Module
 
 ![polybar-spotify-module](https://github.com/mihirlad55/polybar-spotify-module/raw/master/screenshots/capture2.png)
@@ -11,7 +14,7 @@ song on spotify.
 ## Requirements
 DBus is used for listening to spotify track changes. Obviously you need spotify
 and polybar as well:
-`dbus polybar spotify`
+`dbus polybar spotifyd`
 
 To compile the program, you will need `make`.
 

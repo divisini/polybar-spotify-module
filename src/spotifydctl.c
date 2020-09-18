@@ -1,4 +1,4 @@
-#include "../include/spotifyctl.h"
+#include "../include/spotifydctl.h"
 
 #include <limits.h>
 #include <stdio.h>
@@ -8,7 +8,7 @@
 #include "../include/utils.h"
 
 /*************** Constants for DBus ***************/
-const char *DESTINATION = "org.mpris.MediaPlayer2.spotify";
+const char *DESTINATION = "org.mpris.MediaPlayer2.spotifyd";
 const char *PATH = "/org/mpris/MediaPlayer2";
 
 const char *STATUS_IFACE = "org.freedesktop.DBus.Properties";
@@ -251,7 +251,7 @@ void spotify_player_call(DBusConnection *connection, const char *method) {
 }
 
 void print_usage() {
-    puts("usage: spotifyctl [ -q ] [options] <command>");
+    puts("usage: spotifydctl [ -q ] [options] <command>");
     puts("");
     puts("  Commands:");
     puts("    play           Play spotify");
@@ -295,7 +295,7 @@ void print_usage() {
     puts("    -q                        Hide errors");
     puts("");
     puts("  Examples:");
-    puts("    spotifyctl status --format '%artist%: %title%' \\");
+    puts("    spotifydctl status --format '%artist%: %title%' \\");
     puts("        --max-length 30 --max-artist-length 10 \\");
     puts("        --max-title-length 20 --trunc '...'");
     puts("    If artist name is 'Eminem' and track title is");
@@ -303,7 +303,7 @@ void print_usage() {
     puts("    Eminem: Sing For The Moment");
     puts("    since the total length is less than 30 characters.");
     puts("");
-    puts("    spotifyctl status --format '%artist%: %title%' \\");
+    puts("    spotifydctl status --format '%artist%: %title%' \\");
     puts("        --max-length 20 --max-artist-length 10 \\");
     puts("        --max-title-length 10 --trunc '...'");
     puts("    If artist name is 'Eminem' and track title is");
@@ -311,7 +311,7 @@ void print_usage() {
     puts("    Eminem: Sing Fo...");
     puts("    since the total length is less than 30 characters.");
     puts("");
-    puts("    spotifyctl status --format '%artist%: %title%' \\");
+    puts("    spotifydctl status --format '%artist%: %title%' \\");
     puts("        --max-title-length 13 --trunc '...'");
     puts("    If artist name is 'Eminem' and track title is");
     puts("    'Sing For The Moment', the output will be:");
@@ -374,8 +374,8 @@ int main(int argc, char *argv[]) {
             return 0;
         } else {
             fprintf(stderr, "Invalid option '%s'\n", argv[i]);
-            fputs("usage: spotifyctl [ -q ] [options] <command>\n", stderr);
-            fputs("Try 'spotifyctl help' for more information\n", stderr);
+            fputs("usage: spotifydctl [ -q ] [options] <command>\n", stderr);
+            fputs("Try 'spotifydctl help' for more information\n", stderr);
             return 1;
         }
     }
@@ -392,7 +392,7 @@ int main(int argc, char *argv[]) {
     switch (prog_mode) {
         case MODE_NONE:
             fputs("No command specified\n", stderr);
-            fputs("Try 'spotifyctl help' for more information\n", stderr);
+            fputs("Try 'spotifydctl help' for more information\n", stderr);
             dbus_connection_unref(connection);
             return 1;
 

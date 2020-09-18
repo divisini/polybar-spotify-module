@@ -1,4 +1,4 @@
-#include "../include/spotify-listener.h"
+#include "../include/spotifyd-listener.h"
 
 #include <dbus-1.0/dbus/dbus.h>
 #include <inttypes.h>
@@ -154,7 +154,7 @@ DBusHandlerResult properties_changed_handler(DBusConnection *connection,
      *         variant  array [
      *             dict entry(
      *                 string "mpris:trackid"
-     *                 variant  string "spotify:track:xxxxxxxxxxxxx"
+     *                 variant  string "spotifyd:track:xxxxxxxxxxxxx"
      *             )
      *           .
      *           .
@@ -202,9 +202,9 @@ DBusHandlerResult properties_changed_handler(DBusConnection *connection,
         return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
     }
 
-    // Make sure trackid begins with spotify
+    // Make sure trackid begins with spotifyd
     char *trackid = iter_get_string(&sub_iter);
-    if (trackid != NULL && strncmp(trackid, "spotify", 7) == 0) {
+    if (trackid != NULL && strncmp(trackid, "spotifyd", 7) == 0) {
         spotify_update_track(trackid);
         update_last_trackid(trackid);
         is_spotify = TRUE;
@@ -265,7 +265,7 @@ DBusHandlerResult name_owner_changed_handler(DBusConnection *connection,
     }
 
     // If name matches spotify and new owner is "", spotify disconnected
-    if (strcmp(name, "org.mpris.MediaPlayer2.spotify") == 0 &&
+    if (strcmp(name, "org.mpris.MediaPlayer2.spotifyd") == 0 &&
         strcmp(new_owner, "") == 0) {
         puts("Spotify disconnected");
         spotify_exited();

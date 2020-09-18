@@ -1,0 +1,12 @@
+[Unit]
+Description=A program that monitors Spotifyd DBus signals and communicates with polybar over IPC to control the polybar spotifyd modules.
+After=graphical.target
+
+[Service]
+ExecStart=/usr/bin/spotifyd-listener
+Type=simple
+RestartSec=5
+
+[Install]
+WantedBy=default.target
+
