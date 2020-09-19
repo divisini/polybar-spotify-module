@@ -1,5 +1,4 @@
 WIP modification so the module targets [spotifyd](https://github.com/Spotifyd/spotifyd)  
-To be completely clear, to start I've done nothing but append a "d" to the end of every instance of "spotify" where it makes sense to do so.
 
 # Polybar Spotify Module
 
